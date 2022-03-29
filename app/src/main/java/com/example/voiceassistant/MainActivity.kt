@@ -1,6 +1,4 @@
-package com.example.voiceassistant
-
-/*
+package com.example.voiceassistant/*
 *
 * APP NAME: andriodNetVA
 * APPID: WEJ2G2-KW575WQY24
@@ -39,13 +37,13 @@ import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
 
-    val TAG: String = "MainActivity"
+    val TAG: String = "com.example.voiceassistant.MainActivity"
 
     lateinit var requestInput: TextInputEditText
 
     lateinit var podsAdapter: SimpleAdapter
 
-    lateinit var progressBar: ProgressBar
+    lateinit var progress_bar: ProgressBar
 
     lateinit var waEngine: WAEngine
 
@@ -142,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             showVoiceInputDialog()
         }
 
-        progressBar = findViewById(R.id.progresBar)
+        progress_bar = findViewById(R.id.progresBar)
 
     }
 
@@ -186,14 +184,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun askWolfram(request: String) {
-        progressBar.visibility = View.VISIBLE
+        progress_bar.visibility = View.VISIBLE
         CoroutineScope(Dispatchers.IO).launch {
             val query = waEngine.createQuery().apply { input = request }
             runCatching {
                 waEngine.performQuery(query)
             }.onSuccess { result ->
                 withContext(Dispatchers.Main) {
-                    progressBar.visibility = View.GONE
+                    progress_bar.visibility = View.GONE
                     // обработка запрос - ответ
                     if (result.isError) {
                         showSnackBar(result.errorMessage)
@@ -224,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }.onFailure { t ->
                 withContext(Dispatchers.Main) {
-                    progressBar.visibility = View.GONE
+                    progress_bar.visibility = View.GONE
                     // обработка ошибки
                     showSnackBar(t.message ?: getString(R.string.error_something_went_wrong))
 

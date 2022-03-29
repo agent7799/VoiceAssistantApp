@@ -12,7 +12,6 @@ package com.example.voiceassistant
     import org.junit.Test
     import org.junit.runner.RunWith
 
-    class FirstLessonInstrumentedTest {
     /**
      * Instrumented test, which will execute on an Android device.
      *
@@ -36,7 +35,7 @@ package com.example.voiceassistant
             )
         }
 
-    }
+
         @Test
         fun testOutputTextViewHasVariableContent() {
             onView(

@@ -129,7 +129,7 @@ package com.example.voiceassistant
             )
 
             onView(
-                withId(R.id.progress_bar)
+                withId(R.id.progresBar)
             ).check(
                 matches(
                     isDisplayed()
@@ -140,7 +140,7 @@ package com.example.voiceassistant
             Thread.sleep(5000L)
 
             onView(
-                withId(R.id.progress_bar)
+                withId(R.id.progresBar)
             ).check(
                 matches(
                     not(isDisplayed())
