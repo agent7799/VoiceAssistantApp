@@ -30,7 +30,6 @@ import org.junit.runner.RunWith
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class SecondLessonInstrumentedTest {
@@ -238,7 +237,7 @@ fun withDrawable(@DrawableRes id: Int) = object : TypeSafeMatcher<View>() {
     }
 }
 
-fun hasItems(expectedCount: Int) = object : TypeSafeMatcher<View>() {
+private fun hasItems(expectedCount: Int) = object : TypeSafeMatcher<View>() {
     override fun describeTo(description: Description?) {
         description?.appendText("ListView has $expectedCount items")
     }

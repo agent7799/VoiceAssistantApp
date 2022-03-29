@@ -8,6 +8,7 @@ package com.example.voiceassistant/*
 *
  */
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ListView
 import android.widget.ProgressBar
 import android.widget.SimpleAdapter
+import android.widget.TextView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -47,7 +49,24 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var waEngine: WAEngine
 
-    val pods = mutableListOf<HashMap<String, String>>()
+    val pods = mutableListOf<HashMap<String, String>>(
+        HashMap<String,String>().apply {
+            put("Title", "Title 1")
+            put("Content", "Content 1")
+        } ,
+        HashMap<String,String>().apply {
+            put("Title", "Title 2")
+            put("Content", "Content 2")
+        },
+        HashMap<String,String>().apply {
+            put("Title", "Title 3")
+            put("Content", "Content 3")
+        },
+        HashMap<String,String>().apply {
+            put("Title", "Title 4")
+            put("Content", "Content 4")
+        }
+    )
 
     lateinit var textToSpeech : TextToSpeech
 
@@ -55,35 +74,22 @@ class MainActivity : AppCompatActivity() {
 
     val VOICE_RECOGNITION_REQUEST_CODE : Int = 777
 
-//        HashMap<String,String>().apply {
-//            put("Title", "Title 1")
-//            put("Content", "Conyent 1")
-//        } ,
-//        HashMap<String,String>().apply {
-//            put("Title", "Title 2")
-//            put("Content", "Conyent 2")
-//        },
-//        HashMap<String,String>().apply {
-//            put("Title", "Title 3")
-//            put("Content", "Conyent 3")
-//        },
-//        HashMap<String,String>().apply {
-//            put("Title", "Title 4")
-//            put("Content", "Conyent 4")
-//        },
 
+
+
+    @SuppressLint("LongLogTag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val name : String = "Ivan"
-//        val surname : String = "Ivanov"
-//        var age : Int = 37
-//        val height : Double = 172.2
-//        val output: TextView = findViewById(R.id.output)
-//        val summary : String = "name: $name surname: $surname age: $age height: $height"
-//        Log.d(TAG, summary)
-//        output.text = summary
+        val name : String = "Ivan"
+        val surname : String = "Ivanov"
+        var age : Int = 37
+        val height : Double = 172.2
+        val output: TextView = findViewById(R.id.output)
+        val summary : String = "name: $name surname: $surname age: $age height: $height"
+        Log.d(TAG, summary)
+        output.text = summary
 
         initViews()
         initWolframEngine()
@@ -91,6 +97,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("LongLogTag")
     fun initViews() {
         val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -149,6 +156,7 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    @SuppressLint("LongLogTag")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_clear -> {
@@ -232,6 +240,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("LongLogTag")
     fun initTts(){
         textToSpeech  = TextToSpeech(this) { code ->
             if (code != TextToSpeech.SUCCESS){

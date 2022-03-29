@@ -24,7 +24,7 @@ package com.example.voiceassistant
     import org.junit.runner.RunWith
     import java.util.*
 
-class FourthLessonInstrumentedTest {
+
 
     /**
      * Instrumented test, which will execute on an Android device.
@@ -96,5 +96,3 @@ class FourthLessonInstrumentedTest {
 
     }
 
-
-}
