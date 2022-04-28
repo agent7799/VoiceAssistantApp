@@ -1,12 +1,4 @@
-package com.example.voiceassistant/*
-*
-* APP NAME: andriodNetVA
-* APPID: WEJ2G2-KW575WQY24
-*
-*
-*
-*
- */
+package com.example.voiceassistant
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -50,31 +42,29 @@ class MainActivity : AppCompatActivity() {
     lateinit var waEngine: WAEngine
 
     val pods = mutableListOf<HashMap<String, String>>(
-        HashMap<String,String>().apply {
+        HashMap<String, String>().apply {
             put("Title", "Title 1")
             put("Content", "Content 1")
-        } ,
-        HashMap<String,String>().apply {
+        },
+        HashMap<String, String>().apply {
             put("Title", "Title 2")
             put("Content", "Content 2")
         },
-        HashMap<String,String>().apply {
+        HashMap<String, String>().apply {
             put("Title", "Title 3")
             put("Content", "Content 3")
         },
-        HashMap<String,String>().apply {
+        HashMap<String, String>().apply {
             put("Title", "Title 4")
             put("Content", "Content 4")
         }
     )
 
-    lateinit var textToSpeech : TextToSpeech
+    lateinit var textToSpeech: TextToSpeech
 
-    var isTtsReady : Boolean = false
+    var isTtsReady: Boolean = false
 
-    val VOICE_RECOGNITION_REQUEST_CODE : Int = 777
-
-
+    val VOICE_RECOGNITION_REQUEST_CODE: Int = 777
 
 
     @SuppressLint("LongLogTag")
@@ -82,12 +72,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val name : String = "Ivan"
-        val surname : String = "Ivanov"
-        var age : Int = 37
-        val height : Double = 172.2
+        val name: String = "Ivan"
+        val surname: String = "Ivanov"
+        var age: Int = 37
+        val height: Double = 172.2
         val output: TextView = findViewById(R.id.output)
-        val summary : String = "name: $name surname: $surname age: $age height: $height"
+        val summary: String = "name: $name surname: $surname age: $age height: $height"
         Log.d(TAG, summary)
         output.text = summary
 
@@ -125,10 +115,10 @@ class MainActivity : AppCompatActivity() {
             intArrayOf(R.id.title, R.id.content)
         )
         podsList.adapter = podsAdapter
-        podsList.setOnItemClickListener {parent, view, position, id ->
-        if (isTtsReady) {
-            val title = pods[position]["Title"]
-            val content = pods[position]["Content"]
+        podsList.setOnItemClickListener { parent, view, position, id ->
+            if (isTtsReady) {
+                val title = pods[position]["Title"]
+                val content = pods[position]["Content"]
                 textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, title)
             }
         }
@@ -140,7 +130,7 @@ class MainActivity : AppCompatActivity() {
             pods.clear()
             podsAdapter.notifyDataSetChanged()
 
-            if (isTtsReady){
+            if (isTtsReady) {
                 textToSpeech.stop()
             }
 
@@ -167,7 +157,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_stop -> {
                 Log.d(TAG, "action stop")
-                if (isTtsReady){
+                if (isTtsReady) {
                     textToSpeech.stop()
                 }
             }
@@ -183,12 +173,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showSnackBar(message: String) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE).apply {
-            setAction(android.R.string.ok) {
-                dismiss()
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
+            .apply {
+                setAction(android.R.string.ok) {
+                    dismiss()
+                }
+                show()
             }
-            show()
-        }
     }
 
     fun askWolfram(request: String) {
@@ -233,7 +224,6 @@ class MainActivity : AppCompatActivity() {
                     progress_bar.visibility = View.GONE
                     // обработка ошибки
                     showSnackBar(t.message ?: getString(R.string.error_something_went_wrong))
-
                 }
 
             }
@@ -241,9 +231,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("LongLogTag")
-    fun initTts(){
-        textToSpeech  = TextToSpeech(this) { code ->
-            if (code != TextToSpeech.SUCCESS){
+    fun initTts() {
+        textToSpeech = TextToSpeech(this) { code ->
+            if (code != TextToSpeech.SUCCESS) {
                 Log.e(TAG, "TTS Error code: $code")
                 showSnackBar(getString(R.string.error_tts_not_ready))
             } else {
@@ -253,9 +243,12 @@ class MainActivity : AppCompatActivity() {
         textToSpeech.language = Locale.US
     }
 
-    fun showVoiceInputDialog(){
-        val intent = Intent (RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+    fun showVoiceInputDialog() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
             putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.request_hint))
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US)
         }
@@ -263,17 +256,17 @@ class MainActivity : AppCompatActivity() {
         kotlin.runCatching {
             startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE)
 
-        }.onFailure {
-            t -> showSnackBar(t.message ?: getString(R.string.error_voice_recognition_unavailable))
+        }.onFailure { t ->
+            showSnackBar(t.message ?: getString(R.string.error_voice_recognition_unavailable))
         }
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK){
-            data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)?.let{
-                question  -> requestInput.setText(question)
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)?.let { question ->
+                requestInput.setText(question)
                 askWolfram(question)
             }
         }
