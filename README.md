@@ -1,2 +1,5 @@
+#educational project
+
 # VoiceAssistantApp
-Android Voice Assistant Application
+
+Android Application using voice recognition API - Voice Assistant 
